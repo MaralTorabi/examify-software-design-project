@@ -23,20 +23,20 @@
 ### Section 1: Maral (40213312) — Branch `feat/services-core`
 **Scope:** `services/ingestion/`, `services/adaptive/`, `tests/services/`
 
-- [ ] Implement `ContentExtractionService` in `services/ingestion/extractor.py` (supporting both `extract_from_text` for pasted text and `extract_from_bytes` for `.pdf`/`.txt` with 1-indexed pages & SHA-256).
-- [ ] Implement `ConsecutiveAnswersStrategy`, `RollingAccuracyStrategy`, and `AdaptiveQuestionSelector` in `services/adaptive/`.
-- [ ] Write unit tests in `tests/services/test_ingestion_and_adaptive.py` and verify `pytest` passes.
-- [ ] Mark tasks `[x]` and push `origin feat/services-core`.
+- [x] Implement `ContentExtractionService` in `services/ingestion/extractor.py` (supporting both `extract_from_text` for pasted text and `extract_from_bytes` for `.pdf`/`.txt` with 1-indexed pages & SHA-256).
+- [x] Implement `ConsecutiveAnswersStrategy`, `RollingAccuracyStrategy`, and `AdaptiveQuestionSelector` in `services/adaptive/`.
+- [x] Write unit tests in `tests/services/test_ingestion_and_adaptive.py` and verify `pytest` passes.
+- [x] Mark tasks `[x]` and push `origin feat/services-core`.
 
 ---
 
 ### Section 2: Fatemeh (40312033) — Branch `feat/domain-persistence`
 **Scope:** `domain/`, `tests/domain/`
 
-- [ ] Implement `MultipleChoiceQuestionFactory` (`domain/patterns/question_factory.py`) and `ExamState` state machine (`domain/patterns/exam_states.py`).
-- [ ] Implement SQLite WAL database setup + `init_db()` (`domain/persistence/database.py`) and all 11 SQLAlchemy ORM tables (`domain/persistence/models.py`) for Function Point ILF count.
-- [ ] Implement repositories, `SQLAlchemyUnitOfWork` (with optimistic locking `version`), `ExamApplicationService`, and `AnalyticsService`.
-- [ ] Write unit tests in `tests/domain/test_domain_prototype.py`, mark tasks `[x]`, and push `origin feat/domain-persistence`.
+- [x] Implement `MultipleChoiceQuestionFactory` (`domain/patterns/question_factory.py`) and `ExamState` state machine (`domain/patterns/exam_states.py`).
+- [x] Implement SQLite WAL database setup + `init_db()` (`domain/persistence/database.py`) and all 11 SQLAlchemy ORM tables (`domain/persistence/models.py`) for Function Point ILF count.
+- [x] Implement repositories, `SQLAlchemyUnitOfWork` (with optimistic locking `version`), `ExamApplicationService`, and `AnalyticsService`.
+- [x] Write unit tests in `tests/domain/test_domain_prototype.py`, mark tasks `[x]`, and push `origin feat/domain-persistence`.
 
 ---
 
@@ -56,3 +56,10 @@
 - [ ] Build Persian RTL (`dir="rtl"`) 4-step interactive prototype UI in `client/index.html`, `client/style.css`, and `client/app.js` (Login -> Paste Text/Upload -> Adaptive Exam -> Report).
 - [ ] Create IFPUG Function Point calculation report in `docs/FUNCTION_POINT_REPORT.md` (11 ILFs, 2 EIFs, 12 EIs, 3 EOs, 5 EQs).
 - [ ] Write end-to-end offline flow test in `tests/e2e/test_full_prototype_flow.py`, mark tasks `[x]`, and push `origin feat/client-ui`.
+
+### Amiroyousef — Branch `feat/ai-live-and-fp`
+**Scope:** `services/ai/live_adapter.py`, `docs/FUNCTION_POINT_REPORT.md`, `tests/e2e/test_live_and_mock_ai.py`
+
+- [x] Implement the configurable OpenAI-compatible adapter and automatic offline factory.
+- [x] Complete the bilingual IFPUG Function Point calculation report in `docs/FUNCTION_POINT_REPORT.md`.
+- [x] Verify live generation and offline fallback with mocked HTTP in `tests/e2e/test_live_and_mock_ai.py`.
