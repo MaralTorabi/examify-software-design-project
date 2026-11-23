@@ -341,8 +341,7 @@ def test_live_generation_and_invalid_citation_fallback(tmp_path, monkeypatch):
                     "correct_index": 0,
                     "explanation": "The first sentence is cited.",
                     "topic": "Architecture",
-                    "page_number": cited_page,
-                    "excerpt": SOURCE.splitlines()[0],
+                    "sources": [{"page_number": cited_page, "excerpt": SOURCE.splitlines()[0]}],
                 }
             ],
         }

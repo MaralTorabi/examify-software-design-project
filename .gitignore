@@ -58,3 +58,7 @@ storage/private/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# SQLite transaction sidecars
+*.db-wal
+*.db-shm

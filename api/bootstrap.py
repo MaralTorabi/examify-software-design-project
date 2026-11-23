@@ -12,11 +12,11 @@ from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 
 from api.exception_handlers import register_exception_handlers
-from api.generation import LiveProviderAdapter
 from api.routes import auth, documents, exams, health
 from api.storage import PrototypeStore
 from core.config import Settings, get_settings
-from services.ai import FallbackAIAdapter, OfflineMockAIAdapter, QuestionGenerationService
+from services.ai import OfflineMockAIAdapter, QuestionGenerationService
+from services.ai.live_adapter import build_default_ai_adapter
 
 DEFAULT_DEV_SECRET = "examify-development-secret-key-change-in-production"
 CLIENT_PATH = Path(__file__).resolve().parent.parent / "client"
@@ -64,7 +64,7 @@ def create_app(
     mock = OfflineMockAIAdapter()
     app.state.offline_generation = QuestionGenerationService(mock)
     app.state.live_generation = QuestionGenerationService(
-        mock if settings.offline_mode else FallbackAIAdapter(LiveProviderAdapter(settings), mock)
+        mock if settings.offline_mode else build_default_ai_adapter(settings=settings)
     )
     register_exception_handlers(app)
     origins = os.environ.get("EXAMIFY_CORS_ORIGINS", "http://localhost:8000,http://127.0.0.1:8000")

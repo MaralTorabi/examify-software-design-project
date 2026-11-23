@@ -12,6 +12,7 @@ from uuid import uuid4
 
 import httpx
 
+from core.config import Settings
 from core.errors import ExamifyError, ValidationError
 from core.schemas import (
     FrozenContract,
@@ -240,17 +241,19 @@ class OpenAICompatibleLLMAdapter(AIAdapter):
             raise ExamifyError("LLM generation timed out.", code="LLM_TIMEOUT") from None
 
 
-def build_default_ai_adapter(*, client: httpx.AsyncClient | None = None) -> AIAdapter:
+def build_default_ai_adapter(
+    *, client: httpx.AsyncClient | None = None, settings: Settings | None = None
+) -> AIAdapter:
     """Use the local mock unless an external API key is explicitly configured."""
     fallback = OfflineMockAIAdapter()
-    api_key = os.getenv("EXAMIFY_LLM_API_KEY", "").strip()
+    api_key = os.getenv("EXAMIFY_LLM_API_KEY", "").strip() or (settings.ai_api_key if settings else "")
     if not api_key:
         return fallback
     return FallbackAIAdapter(
         primary=OpenAICompatibleLLMAdapter(
             api_key=api_key,
-            base_url=os.getenv("EXAMIFY_LLM_BASE_URL", ""),
-            model=os.getenv("EXAMIFY_LLM_MODEL", ""),
+            base_url=os.getenv("EXAMIFY_LLM_BASE_URL", "") or (settings.ai_base_url if settings else ""),
+            model=os.getenv("EXAMIFY_LLM_MODEL", "") or (settings.ai_model if settings else ""),
             client=client,
         ),
         fallback=fallback,
