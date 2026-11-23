@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Examify | آزمون تمرینی</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="bar-inner">
+      <a href="/" class="brand" aria-label="صفحهٔ اصلی Examify" dir="ltr">
+        <span class="brand-mark" aria-hidden="true">E</span>
+        <span>Examify</span>
+      </a>
+      <div class="account" id="account" hidden>
+        <span id="account-email" dir="ltr"></span>
+        <button type="button" id="logout" class="small secondary">خروج</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <h1>آزمون تمرینی</h1>
+      <ol class="steps" aria-label="مراحل آزمون">
+        <li aria-current="step"><span aria-hidden="true">۱</span> حساب کاربری</li>
+        <li><span aria-hidden="true">۲</span> منبع و سؤال‌ها</li>
+        <li><span aria-hidden="true">۳</span> پاسخ به آزمون</li>
+        <li><span aria-hidden="true">۴</span> نتیجه و مرور</li>
+      </ol>
+    </aside>
+
+    <div class="workspace">
+      <p id="alert" class="alert" role="alert" hidden></p>
+
+      <section id="panel-auth" class="panel" aria-labelledby="auth-heading">
+        <div>
+          <h2 id="auth-heading" tabindex="-1">ورود به Examify</h2>
+          <p class="muted">برای ساخت مجموعه سؤال و شروع آزمون وارد حساب خود شوید.</p>
+        </div>
+        <form id="auth-form" class="stack">
+          <label>ایمیل
+            <input id="email" type="email" dir="ltr" maxlength="254" autocomplete="email" placeholder="name@example.com" required>
+          </label>
+          <label>رمز عبور
+            <input id="password" type="password" dir="ltr" minlength="8" maxlength="128" autocomplete="current-password" required>
+          </label>
+          <div class="actions">
+            <button type="submit">ورود</button>
+            <button type="submit" id="register" class="secondary">ثبت‌نام و ورود</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="panel-source" class="panel" aria-labelledby="source-heading" hidden>
+        <div>
+          <h2 id="source-heading" tabindex="-1">منبع و سؤال‌ها</h2>
+          <p class="muted">متن جزوه را وارد کنید، فایل بفرستید یا یکی از منابع قبلی را انتخاب کنید.</p>
+        </div>
+        <form id="source-form" class="stack">
+          <div class="source-heading">
+            <label for="title">عنوان جزوه</label>
+            <button type="button" id="sample" class="small secondary">متن نمونه</button>
+          </div>
+          <input id="title" maxlength="255" placeholder="مثلاً طراحی نرم‌افزار" required>
+          <label>متن جزوه
+            <textarea id="source-text" rows="7" maxlength="200000" placeholder="چند جمله از جزوه را اینجا وارد کنید…" required></textarea>
+          </label>
+          <div><button type="submit">ذخیرهٔ متن</button></div>
+        </form>
+        <form id="upload-form" class="upload">
+          <label>فایل PDF متنی یا TXT
+            <input id="source-file" type="file" accept=".pdf,.txt" required>
+          </label>
+          <button type="submit" class="secondary">بارگذاری</button>
+        </form>
+        <label>منابع در دسترس
+          <select id="documents"><option value="">انتخاب منبع</option></select>
+        </label>
+        <div id="question-bank" class="section-rule" hidden>
+          <div class="bank-heading">
+            <div>
+              <h3>بانک سؤال</h3>
+              <p id="bank-summary" class="muted"></p>
+            </div>
+            <button type="button" id="generate" class="secondary">تولید سؤال آزمایشی</button>
+          </div>
+          <p id="generation-note" class="muted" role="status"></p>
+          <div id="questions" class="question-list"></div>
+          <div class="actions">
+            <button type="button" id="approve-all" class="secondary">تأیید همهٔ سؤال‌های بررسی‌نشده</button>
+            <button type="button" id="start">شروع آزمون</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-exam" class="panel" aria-labelledby="exam-heading" hidden>
+        <div class="bank-heading">
+          <div>
+            <h2 id="exam-heading" tabindex="-1">آزمون تطبیقی</h2>
+            <p id="question-progress" class="muted"></p>
+          </div>
+          <span id="difficulty" class="pill" role="status"></span>
+        </div>
+        <progress id="exam-progress" value="0" max="1" aria-label="پیشرفت آزمون"></progress>
+        <p id="answer-feedback" class="muted" role="status"></p>
+        <form id="answer-form" class="stack">
+          <fieldset>
+            <legend id="question-prompt"></legend>
+            <div id="options" class="options"></div>
+          </fieldset>
+          <div class="actions">
+            <button type="submit" id="submit-answer">ثبت پاسخ</button>
+            <button type="button" id="next" class="secondary" hidden>سؤال بعدی</button>
+          </div>
+        </form>
+        <div><button type="button" id="finish" class="secondary">پایان آزمون و مشاهدهٔ نتیجه</button></div>
+      </section>
+
+      <section id="panel-report" class="panel" aria-labelledby="report-heading" hidden>
+        <div>
+          <h2 id="report-heading" tabindex="-1">نتیجهٔ آزمون</h2>
+          <p id="report-summary" class="muted"></p>
+        </div>
+        <div class="metrics">
+          <div><span>امتیاز</span><strong id="score"></strong></div>
+          <div><span>پاسخ درست</span><strong id="correct"></strong></div>
+          <div><span>سطح پایانی</span><strong id="final-difficulty"></strong></div>
+        </div>
+        <div id="weak-topics" class="section-rule"></div>
+        <div id="review-pages" class="section-rule"></div>
+        <div><button type="button" id="restart" class="secondary">بازگشت به منابع</button></div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
